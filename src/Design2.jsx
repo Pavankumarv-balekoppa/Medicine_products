@@ -9,7 +9,7 @@ const Design2 = () => {
     const [tableData, setTableData] = useState([]);
 
     const fetchData = async () => {
-        const response = await fetch("http://localhost:5000/medicine");
+        const response = await fetch("http://localhost:4000/medicine");
         const result = await response.json();
         console.log(result); // Debugging
         setData(result);

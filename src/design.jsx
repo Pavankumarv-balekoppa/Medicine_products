@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Table from 'react-bootstrap/Table';
 
 const Design = () => {
     let [data, setdata] = useState([])
@@ -368,24 +369,32 @@ const Design = () => {
     let find = async () => {
         let response = await fetch(`http://localhost:4000/medicine`)
         let data1 = await response.json()
-        let filterdata = data1.filter(x => x.PRODUCT_NAME == search.current.value)
+        if(value=="Product_name")
+        {
+            let filterdata = data1.filter(x => x.PRODUCT_NAME == search.current.value)
         setdata(filterdata)
+        }
+        else
+        {
+            let filterdata = data1.filter(x => x.COMPOSITION == search.current.value)
+        setdata(filterdata)
+        }
     }
 
     let reset = () => {
         search.current.value = '';
     }
     return (
-        <div className="design bg-danger m-5 p-3">
+        <div className="design bg-success  rounded-4 m-5 p-3">
             
             <div className="nav bg-primary m-4 p-3">
+                
                 <label className="m-2" htmlFor="">FILTER  :</label>
                 <select className="m-2" value={value} onChange={selected} required>
                     <option value="">select to filter</option>
                     <option value="Product_name">Product_name</option>
                     <option value="Company_name">Company_name</option>
                 </select>
-
                 <input className="m-2 w-50" type="text" placeholder={value} ref={search} required/>
                 <button className="btn btn bg-success" onClick={() => find()}>Search</button>
                 <button className="btn btn bg-warning ms-3" onClick={reset}>Reset</button>
@@ -393,16 +402,16 @@ const Design = () => {
             
             <br /><br /><br />
             <div className="info ">
-                <h1>Information about{data.PRODUCT_NAME}</h1><br /><br />
-                <table border="4px" align="center">
-                    <thead>
+                <h1 className="text-center">-: Information about :- <h1 className=" text-warning">{search.current.value}</h1></h1><br /><br />
+                <Table striped bordered hover variant="dark">
+                    <thead className="bg-info">
                             <th>PRODUCTID</th>
                             <th>PRODUCT_NAME</th>
                             <th>MRP</th>
                             <th>RX_REQUIRED</th>
                             <th>PACKING</th>
                             <th>TYPEOFPRODUCT</th>
-                            <th>COMPOSITION</th>
+                            <th>COMPANY_NAME</th>
                     </thead>
                     <tbody>
                         {data.map((item) => (
@@ -417,7 +426,7 @@ const Design = () => {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </Table><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             </div>
         </div>
     );
